@@ -558,10 +558,10 @@
       animation-delay: inherit;
     }
     .boot-title.bloody .title-blood span:nth-child(1) { left: 18%; width: 4px; animation-delay: 0s; }
-    .boot-title.bloody .title-blood span:nth-child(2) { left: 35%; width: 2.5px; animation-delay: 0.16s; }
-    .boot-title.bloody .title-blood span:nth-child(3) { left: 52%; width: 3px; animation-delay: 0.3s; }
-    .boot-title.bloody .title-blood span:nth-child(4) { left: 69%; width: 2px; animation-delay: 0.44s; }
-    .boot-title.bloody .title-blood span:nth-child(5) { left: 84%; width: 3.5px; animation-delay: 0.58s; }
+    .boot-title.bloody .title-blood span:nth-child(2) { left: 35%; width: 2.5px; animation-delay: 0.08s; }
+    .boot-title.bloody .title-blood span:nth-child(3) { left: 52%; width: 3px; animation-delay: 0.14s; }
+    .boot-title.bloody .title-blood span:nth-child(4) { left: 69%; width: 2px; animation-delay: 0.2s; }
+    .boot-title.bloody .title-blood span:nth-child(5) { left: 84%; width: 3.5px; animation-delay: 0.26s; }
     @keyframes titleBloodDrip {
       0% { height: 0; opacity: 0; }
       16% { opacity: 0.95; }
@@ -3543,25 +3543,10 @@ function sessGet(k) { try { return sessionStorage.getItem(k); } catch(e) { retur
 function sessSet(k, v) { try { sessionStorage.setItem(k, String(v)); } catch(e) {} }
 
 (function initSession(){
-  let isNewSession = false;
   try {
-    isNewSession = sessionStorage.getItem(SESSION_KEY) !== '1';
-    sessionStorage.setItem(SESSION_KEY, '1');
-  } catch (e) { isNewSession = false; }
-
-  if (isNewSession) {
-    try {
-      Object.values(STATE_KEYS).forEach(k => localStorage.removeItem(k));
-      Object.values(SESSION_ONCE).forEach(k => sessionStorage.removeItem(k));
-      sessionStorage.removeItem('angelina-intro-played');
-    } catch (e) {}
-  }
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
-    }
-  });
+    Object.values(STATE_KEYS).forEach(k => localStorage.removeItem(k));
+    Object.values(SESSION_ONCE).forEach(k => sessionStorage.removeItem(k));
+  } catch (e) {}
 })();
 
 function readState(key, fallback) {
@@ -3675,6 +3660,20 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
       title.classList.add('bloody');
       buzz(12);
     };
+    const autoBleed = () => {
+      if (!bloodDone) bleed();
+    };
+    const titleObserver = new MutationObserver(() => {
+      if (title.classList.contains('show')) {
+        setTimeout(autoBleed, 450);
+        titleObserver.disconnect();
+      }
+    });
+    titleObserver.observe(title, { attributes: true, attributeFilter: ['class'] });
+    if (title.classList.contains('show')) {
+      setTimeout(autoBleed, 450);
+      titleObserver.disconnect();
+    }
     document.addEventListener('pointerdown', bleed);
     document.addEventListener('touchstart', bleed, { passive: true });
     document.addEventListener('touchmove', bleed, { passive: true });
