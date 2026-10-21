@@ -2930,7 +2930,7 @@
     <li><a href="#interlude"><span class="idx">00</span><span class="cn">裂隙</span><span class="badge">RIFT</span><span class="en">interlude</span></a></li>
     <li><a href="#about"><span class="idx">01</span><span class="cn">自述</span><span class="badge">SELF</span><span class="en">profile</span></a></li>
     <li><a href="#style"><span class="idx">02</span><span class="cn">关键词</span><span class="badge">KEYWORD</span><span class="en">they shape me</span></a></li>
-    <li><a href="#notice"><span class="idx">03</span><span class="cn">汇编档案</span><span class="badge">"ME"</span><span class="en">about me</span></a></li>
+    <li><a href="#notice"><span class="idx">03</span><span class="cn">汇编档案</span><span class="badge">"ME"</span><span class="en">really?</span></a></li>
     <li><a href="#epilogue"><span class="idx">04</span><span class="cn">平生</span><span class="badge">LIFETIME</span><span class="en">all one's life</span></a></li>
   </ul>
   <div class="menu-footer">
@@ -3267,12 +3267,12 @@
     <div class="style-side glitch-side">
       <span class="side-num" id="styleSideNum">01</span>
       <span class="side-label">MODE</span>
-      <span class="side-total" id="styleSideTotal">/ 03</span>
+      <span class="side-total" id="styleSideTotal">/ 06</span>
     </div>
 
     <div class="style-main glitch-main">
       <div class="main-top">
-        <span class="main-index" id="styleIndex">STYLE / 01 — 03</span>
+        <span class="main-index" id="styleIndex">STYLE / 01 — 06</span>
         <span class="glitch-status">◉ LIVE</span>
       </div>
       <h3 class="main-name glitch-name" id="styleName" data-text="恶龙骑士">恶龙骑士</h3>
@@ -3298,7 +3298,7 @@
   <div class="term-head" data-reveal id="noticeHead">
     <span class="num">[03]</span>
     <span class="title">汇编档案</span>
-    <span class="en">ABOUT ME</span>
+    <span class="en">ABOUT "ME"</span>
   </div>
 
   <div class="notice-grid" id="noticeGrid">
@@ -3396,7 +3396,7 @@
       <button class="col-head" type="button">
         <span class="note-tag">ARCHIVE 05</span>
         <span class="col-name">龙化受试记录</span>
-        <span class="col-count">00</span>
+        <span class="col-count">07</span>
         <span class="col-toggle">
           <span class="bar"></span>
           <span class="bar"></span>
@@ -3418,7 +3418,7 @@
       <button class="col-head" type="button">
         <span class="note-tag">ARCHIVE 06</span>
         <span class="col-name">人物关系网</span>
-        <span class="col-count">00</span>
+        <span class="col-count">05</span>
         <span class="col-toggle">
           <span class="bar"></span>
           <span class="bar"></span>
@@ -3428,9 +3428,9 @@
         <div class="col-items">
           <div class="notice-item"><span class="n-idx">01</span><p>控制骑士团长的<em>颈圈</em>，是理查德为了<em>随时随地、无需理由</em>即可<em>拘束、惩戒、掌控</em>的专属<em>枷锁</em>。</p></div>
           <div class="notice-item"><span class="n-idx">02</span><p>理查德嫌安吉丽娜原生龙角不够“臣服温顺”，</em>砍断左角</em>，常年置于皇座扶手上作为陈列<em>饰品</em>。</p></div>
-          <div class="notice-item"><span class="n-idx">02</span><p>与教廷多数元老长期对立，曾在朝堂议事遭元老当众质疑<em>不配掌权</em>，安吉丽娜当庭斩下其首级。</p></div>
-          <div class="notice-item"><span class="n-idx">02</span><p>安吉丽娜对底层公民多有体恤，是教廷上层为数不多愿意躬身维护基层人员的掌权者</p></div>
-          <div class="notice-item"><span class="n-idx">02</span><p>安吉丽娜曾有一游离四方的巫师挚友，现<em>生死不明</em>。</p></div>
+          <div class="notice-item"><span class="n-idx">03</span><p>与教廷多数元老长期对立，曾在朝堂议事遭元老当众质疑<em>不配掌权</em>，安吉丽娜当庭斩下其首级。</p></div>
+          <div class="notice-item"><span class="n-idx">04</span><p>安吉丽娜对底层公民多有体恤，是教廷上层为数不多愿意躬身维护基层人员的掌权者</p></div>
+          <div class="notice-item"><span class="n-idx">05</span><p>安吉丽娜曾有一游离四方的巫师挚友，现<em>生死不明</em>。</p></div>
         </div>
       </div>
     </div>
@@ -3536,7 +3536,8 @@ const SESSION_ONCE = {
   introAnim: 'angelina-sess-intro-anim',
   passageOnce: 'angelina-sess-passage-once',
   tvOnce: 'angelina-sess-tv-once',
-  interludeOnce: 'angelina-sess-interlude-once'
+  interludeOnce: 'angelina-sess-interlude-once',
+  riftCombos: 'angelina-sess-rift-combos'
 };
 
 function sessGet(k) { try { return sessionStorage.getItem(k); } catch(e) { return null; } }
@@ -3545,24 +3546,21 @@ function sessSet(k, v) { try { sessionStorage.setItem(k, String(v)); } catch(e) 
 (function initSession(){
   try {
     Object.values(STATE_KEYS).forEach(k => localStorage.removeItem(k));
-    Object.values(SESSION_ONCE).forEach(k => sessionStorage.removeItem(k));
   } catch (e) {}
 })();
 
 function readState(key, fallback) {
   try {
-    const v = localStorage.getItem(key);
+    const v = sessionStorage.getItem(key);
     return v === null ? fallback : v;
   } catch (e) { return fallback; }
 }
 function writeState(key, value) {
-  try { localStorage.setItem(key, String(value)); } catch (e) {}
+  try { sessionStorage.setItem(key, String(value)); } catch (e) {}
 }
 function removeState(key) {
-  try { localStorage.removeItem(key); } catch (e) {}
+  try { sessionStorage.removeItem(key); } catch (e) {}
 }
-function hasIntroPlayed() { return readState(STATE_KEYS.intro, '0') === '1'; }
-function markIntroPlayed() { writeState(STATE_KEYS.intro, '1'); }
 
 /* ============================================================
    血色灰烬生成
@@ -3606,7 +3604,7 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
 
   const introAnimDone = sessGet(SESSION_ONCE.introAnim) === '1';
 
-  if (hasIntroPlayed() && introAnimDone) {
+  if (introAnimDone) {
     loader.classList.add('hidden');
     bootTitle.classList.add('show');
     bootScroll.classList.add('show');
@@ -3633,7 +3631,6 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
 
   setTimeout(() => {
     loader.classList.add('hidden');
-    markIntroPlayed();
     sessSet(SESSION_ONCE.introAnim, '1');
     setTimeout(() => {
       bootTitle.classList.add('show');
@@ -3987,6 +3984,13 @@ function toast(msg, ms = 2000) {
 
   let takenZones = [];
   let unlockedCombos = [];
+  try {
+    const saved = JSON.parse(sessGet(SESSION_ONCE.riftCombos) || '[]');
+    if (Array.isArray(saved)) {
+      unlockedCombos = saved.filter(k => COMBOS.some(c => c.key === k));
+    }
+  } catch (e) { unlockedCombos = []; }
+
   let scanX = 0.12;
   let dragging = false;
   let activeZoneKey = 'blank';
@@ -4000,6 +4004,10 @@ function toast(msg, ms = 2000) {
   let fullState = false;
   let wanderRAF = null;
   let wanderStart = 0;
+
+  function saveRiftProgress() {
+    sessSet(SESSION_ONCE.riftCombos, JSON.stringify(unlockedCombos));
+  }
 
   function renderUnlockedCards() {
     unlockedTrack.innerHTML = '';
@@ -4144,6 +4152,7 @@ function toast(msg, ms = 2000) {
 
       setTimeout(() => {
         unlockedCombos.push(comboKey);
+        saveRiftProgress();
         unlockedCount.textContent = unlockedCombos.length + ' / ' + COMBOS.length;
 
         card.classList.remove('locked');
@@ -4289,6 +4298,7 @@ function toast(msg, ms = 2000) {
   if (replayBtn) {
     replayBtn.addEventListener('click', () => {
       unlockedCombos = [];
+      saveRiftProgress();
       autoCollapseDone = false;
       clearTimeout(autoCollapseTimer);
       clearTimeout(easterRevealTimer);
@@ -4349,9 +4359,14 @@ function toast(msg, ms = 2000) {
   scanTrack.addEventListener('touchend', () => { commitPick(); }, { passive: true });
   scanTrack.addEventListener('touchcancel', () => { dragging = false; });
 
+  if (unlockedCombos.length >= COMBOS.length) {
+    takenZones = ['claw', 'warm', 'echo'];
+  }
+
   renderUnlockedCards();
   renderTags();
   setScan(0.12);
+  updateInteractable();
 
   let autoScanPlayed = false;
   const autoScanIO = new IntersectionObserver((entries) => {
@@ -4416,7 +4431,7 @@ function toast(msg, ms = 2000) {
   let activeTimeout = null;
 
   try {
-    const seenRaw = localStorage.getItem(STATE_KEYS.tvSeen);
+    const seenRaw = sessGet(STATE_KEYS.tvSeen);
     if (seenRaw) {
       unlocked = JSON.parse(seenRaw);
       if (unlocked.length >= IMAGES.length) allSeen = true;
@@ -4558,7 +4573,7 @@ function toast(msg, ms = 2000) {
   }
 
   function saveUnlocked() {
-    try { localStorage.setItem(STATE_KEYS.tvSeen, JSON.stringify(unlocked)); } catch(e) {}
+    sessSet(STATE_KEYS.tvSeen, JSON.stringify(unlocked));
   }
 
   function displayImage(index, staticMode = false) {
