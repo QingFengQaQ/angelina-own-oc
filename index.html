@@ -225,74 +225,353 @@
     }
 
     .boot-title {
-      margin: 32px 0 40px;
+      margin: 0 0 40px;
       opacity: 0; transform: translateY(24px);
       transition: opacity 1.4s var(--ease-out), transform 1.4s var(--ease-out);
       position: relative;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
       visibility: visible;
     }
     .boot-title.show { opacity: 1; transform: none; }
+    .boot-title.show .boot-name {
+      animation: introGlitch 1.5s steps(1, end) forwards, eerieName 3s steps(1, end) 1.5s infinite;
+    }
 
-    .title-main { position: relative; flex: 1; }
-    .title-main h1 {
+    .boot-eyebrow {
+      font-family: var(--tech);
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: var(--blood-bright);
+      text-shadow: 0 0 14px var(--blood-glow);
+      margin-bottom: 22px;
+    }
+    .boot-name {
       font-family: var(--serif);
       font-style: normal; font-weight: 600;
-      font-size: min(22vw, 100px);
-      line-height: 1.05;
+      font-size: min(20vw, 96px);
+      line-height: 1.02;
       letter-spacing: .06em;
-      margin-left: -4px;
       background: linear-gradient(135deg, var(--bone) 0%, var(--blood-bright) 45%, #3a0000 100%);
       -webkit-background-clip: text; background-clip: text;
       color: transparent;
       filter: drop-shadow(0 8px 30px rgba(139, 0, 0, 0.55));
-      position: relative; z-index: 2;
       white-space: nowrap;
+      position: relative;
     }
-    .title-main h1::after {
-      content: "安吉丽娜";
+    .boot-rule {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: min(320px, 72%);
+      margin: 26px auto;
+    }
+    .boot-rule::before,
+    .boot-rule::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line-strong));
+    }
+    .boot-rule::after {
+      background: linear-gradient(90deg, var(--line-strong), transparent);
+    }
+    .boot-rule span {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--blood-bright);
+      box-shadow: 0 0 12px var(--blood-glow);
+      flex-shrink: 0;
+    }
+    .boot-en {
+      font-family: var(--en); font-style: italic;
+      font-size: 16px;
+      letter-spacing: 0.22em;
+      color: var(--bone-soft);
+    }
+    .boot-quote {
+      margin-top: 18px;
       font-family: var(--serif);
-      font-style: normal;
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      width: 100%;
-      z-index: -1;
-      -webkit-text-stroke: 1px var(--blood);
-      color: transparent;
-      opacity: 0.3;
-      filter: blur(3px);
-      white-space: nowrap;
-      pointer-events: none;
+      font-size: 12px;
+      letter-spacing: 0.35em;
+      text-indent: 0.35em;
+      color: var(--bone-mute);
     }
-
-    .title-side {
-      display: flex; flex-direction: column;
-      align-items: flex-end; gap: 18px;
-      padding-right: 10px; padding-bottom: 10px;
-    }
-    .title-side .v-text {
-      writing-mode: vertical-rl; text-orientation: mixed;
-      font-family: var(--serif); font-size: 14px; font-weight: 300;
-      letter-spacing: 0.6em; color: var(--bone-soft);
-    }
-    .title-side .seal {
-      width: 34px; height: 34px;
+    .boot-seal {
+      margin-top: 26px;
+      width: 42px; height: 42px;
       border: 1px solid var(--blood-bright);
       color: var(--blood-bright);
       display: grid; place-items: center;
-      font-family: var(--serif); font-size: 11px;
+      font-family: var(--serif); font-size: 12px;
       line-height: 1.15; text-align: center;
       transform: rotate(8deg);
       box-shadow: 0 0 18px var(--blood-glow), inset 0 0 10px rgba(139,0,0,0.3);
       border-radius: 2px;
     }
-    .title-side .sub-en {
-      font-family: var(--en); font-style: italic;
-      font-size: 15px; letter-spacing: 0.2em;
-      color: var(--blood-bright);
-      opacity: 0.9;
-      text-shadow: 0 0 14px var(--blood-glow);
+
+    .boot-stage::after {
+      content: "";
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      height: 140px;
+      top: -20%;
+      background: linear-gradient(180deg, transparent, rgba(180, 0, 0, 0.08), transparent);
+      animation: eerieSweep 9s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes eerieSweep {
+      0% { transform: translateY(-160px); opacity: 0; }
+      8% { opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0; }
+    }
+
+    .boot-eyebrow {
+      animation: eerieBlink 4.2s steps(1) infinite;
+    }
+    @keyframes eerieBlink {
+      0%, 88%, 100% { opacity: 1; }
+      89% { opacity: 0.25; }
+      90% { opacity: 1; }
+      93% { opacity: 0.4; }
+      94% { opacity: 1; }
+    }
+
+    .boot-name {
+      animation: eerieName 3s steps(1, end) infinite;
+    }
+    @keyframes eerieName {
+      0%, 74%, 100% {
+        opacity: 1;
+        transform: none;
+        filter: drop-shadow(0 8px 30px rgba(139, 0, 0, 0.55));
+      }
+      76% {
+        opacity: 0.35;
+        transform: translateX(5px) skewX(-7deg);
+        filter: drop-shadow(0 0 14px rgba(180, 0, 0, 0.9)) blur(1px);
+      }
+      78% {
+        opacity: 0.85;
+        transform: translateX(-4px);
+      }
+      80% {
+        opacity: 0.5;
+        filter: blur(0.7px);
+      }
+      82% {
+        opacity: 1;
+        transform: none;
+      }
+      90% {
+        opacity: 0.55;
+        transform: translateX(-6px) skewX(6deg);
+      }
+      92% {
+        opacity: 1;
+        transform: none;
+      }
+    }
+    @keyframes introGlitch {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) skewX(0);
+        filter: drop-shadow(0 8px 30px rgba(139, 0, 0, 0.55));
+      }
+      4% {
+        opacity: 0.2;
+        transform: translate(-14px, 2px) skewX(-20deg);
+        filter: drop-shadow(0 0 18px rgba(180, 0, 0, 0.9)) blur(2px);
+      }
+      8% {
+        opacity: 0.9;
+        transform: translate(12px, -2px) skewX(14deg);
+        filter: blur(0.6px);
+      }
+      12% {
+        opacity: 0.35;
+        transform: translate(-7px, 1px);
+        filter: blur(1.6px);
+      }
+      16% {
+        opacity: 0.85;
+        transform: translate(5px, 0) skewX(-7deg);
+      }
+      20% {
+        opacity: 0.4;
+        transform: translate(-16px, 0);
+        filter: drop-shadow(0 0 26px rgba(255, 60, 60, 0.9)) blur(1px);
+      }
+      26% {
+        opacity: 1;
+        transform: translate(0, 0) skewX(0);
+        filter: drop-shadow(0 8px 30px rgba(139, 0, 0, 0.55));
+      }
+      32% {
+        opacity: 0.25;
+        transform: translate(10px, -1px) skewX(9deg);
+        filter: blur(1.8px);
+      }
+      38% {
+        opacity: 0.9;
+        transform: translate(-4px, 0);
+      }
+      46% {
+        opacity: 0.5;
+        transform: translate(6px, 1px) skewX(-5deg);
+        filter: blur(0.6px);
+      }
+      55%, 100% {
+        opacity: 1;
+        transform: none;
+        filter: drop-shadow(0 8px 30px rgba(139, 0, 0, 0.55));
+      }
+    }
+
+    .boot-quote {
+      animation: eerieDrift 5.4s ease-in-out infinite;
+    }
+    @keyframes eerieDrift {
+      0%, 100% { opacity: 0.85; text-shadow: none; }
+      50% { opacity: 0.35; text-shadow: 0 0 14px rgba(180, 0, 0, 0.6); }
+    }
+
+    .boot-seal {
+      animation: sealWobble 7s ease-in-out infinite;
+    }
+    @keyframes sealWobble {
+      0%, 100% {
+        transform: rotate(8deg) scale(1);
+        box-shadow: 0 0 18px var(--blood-glow), inset 0 0 10px rgba(139, 0, 0, 0.3);
+      }
+      50% {
+        transform: rotate(-5deg) scale(1.06);
+        box-shadow: 0 0 30px rgba(180, 0, 0, 0.8), inset 0 0 16px rgba(180, 0, 0, 0.45);
+      }
+    }
+
+    .boot-whispers {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .boot-whispers span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: var(--serif);
+      font-size: clamp(13px, 2.4vw, 18px);
+      letter-spacing: 0.5em;
+      text-indent: 0.5em;
+      color: rgba(200, 40, 40, 0.65);
+      text-shadow: 0 0 18px rgba(180, 0, 0, 0.7);
+      opacity: 0;
+      filter: blur(3px);
+      animation: whisperFlicker 12s ease-in-out infinite;
+    }
+    .boot-whispers span:nth-child(1) { top: 24%; animation-delay: 6s; }
+    .boot-whispers span:nth-child(2) { top: 32%; animation-delay: 10s; }
+    .boot-whispers span:nth-child(3) { top: 40%; animation-delay: 14s; }
+    @keyframes whisperFlicker {
+      0%, 100% { opacity: 0; transform: translateY(6px); filter: blur(5px); }
+      8% { opacity: 0.75; transform: translateY(0); filter: blur(1px); }
+      16% { opacity: 0.12; }
+      24% { opacity: 0.6; }
+      32% { opacity: 0; transform: translateY(-4px); filter: blur(5px); }
+    }
+
+    .boot-name::before,
+    .boot-name::after {
+      content: "安吉丽娜";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      font-family: var(--serif);
+      font-style: normal;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      mix-blend-mode: screen;
+    }
+    .boot-name::before {
+      color: rgba(255, 70, 70, 0.55);
+      transform: translateX(-3px);
+      animation: glitchSlice 2.6s steps(1, end) infinite;
+    }
+    .boot-name::after {
+      color: rgba(255, 255, 255, 0.32);
+      transform: translateX(3px);
+      animation: glitchSlice 2.6s steps(1, end) infinite 0.5s;
+    }
+    @keyframes glitchSlice {
+      0%, 89%, 100% { opacity: 0; clip-path: inset(0 0 0 0); }
+      90% { opacity: 0.8; clip-path: inset(12% 0 60% 0); }
+      92% { opacity: 0.45; clip-path: inset(58% 0 8% 0); }
+      94% { opacity: 0.7; clip-path: inset(30% 0 42% 0); }
+      96% { opacity: 0; }
+    }
+
+    .title-blood {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+    }
+    .title-blood span {
+      position: absolute;
+      top: 30%;
+      width: 3px;
+      height: 0;
+      background: linear-gradient(180deg, rgba(70, 0, 0, 0) 0%, rgba(110, 4, 4, 0.95) 35%, rgba(160, 14, 14, 0.98) 100%);
+      border-radius: 48% 52% 58% 42% / 100% 100% 60% 60%;
+      box-shadow: 0 0 5px rgba(150, 0, 0, 0.65), inset 0 0 2px rgba(0, 0, 0, 0.4);
+      filter: blur(0.4px);
+      opacity: 0;
+    }
+    .title-blood span::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 100%;
+      width: 7px;
+      height: 8px;
+      border-radius: 50% 50% 62% 44%;
+      background: radial-gradient(circle at 34% 30%, #c72424 0%, #8a0404 55%, #4a0000 100%);
+      box-shadow: 0 0 9px rgba(150, 0, 0, 0.8);
+      transform: translate(-50%, 0) scale(0.7);
+      opacity: 0;
+    }
+    .boot-title.bloody .title-blood span {
+      animation: titleBloodDrip 2.4s ease-in forwards;
+    }
+    .boot-title.bloody .title-blood span::after {
+      animation: titleDroplet 2.7s ease-in forwards;
+      animation-delay: inherit;
+    }
+    .boot-title.bloody .title-blood span:nth-child(1) { left: 18%; width: 4px; animation-delay: 0s; }
+    .boot-title.bloody .title-blood span:nth-child(2) { left: 35%; width: 2.5px; animation-delay: 0.16s; }
+    .boot-title.bloody .title-blood span:nth-child(3) { left: 52%; width: 3px; animation-delay: 0.3s; }
+    .boot-title.bloody .title-blood span:nth-child(4) { left: 69%; width: 2px; animation-delay: 0.44s; }
+    .boot-title.bloody .title-blood span:nth-child(5) { left: 84%; width: 3.5px; animation-delay: 0.58s; }
+    @keyframes titleBloodDrip {
+      0% { height: 0; opacity: 0; }
+      16% { opacity: 0.95; }
+      100% { height: 44%; opacity: 0.5; }
+    }
+    @keyframes titleDroplet {
+      0% { opacity: 0; transform: translate(-50%, 0) scale(0.7); }
+      18% { opacity: 1; transform: translate(-50%, 3px) scale(1); }
+      62% { opacity: 1; transform: translate(-50%, 52px) scale(1.05); }
+      100% { opacity: 0; transform: translate(-50%, 80px) scale(1.15); }
     }
 
     .boot-scroll {
@@ -305,15 +584,13 @@
     .boot-scroll.show { opacity: 1; }
     .boot-scroll .scroll-line {
       width: 1px; height: 60px;
-      background: linear-gradient(var(--blood), transparent);
+      background: linear-gradient(180deg, rgba(180, 0, 0, 0) 0%, rgba(170, 0, 0, 0.8) 42%, rgba(120, 0, 0, 0.28) 76%, rgba(120, 0, 0, 0) 100%);
       margin-bottom: 16px;
-      animation: scrollPulse 2.4s var(--ease) infinite;
+      animation: scrollPulse 2.4s ease-in-out infinite;
     }
     @keyframes scrollPulse {
-      0% { transform: scaleY(0); transform-origin: top; }
-      50% { transform: scaleY(1); transform-origin: top; }
-      51% { transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+      0%, 100% { transform: translateY(0); opacity: 0.2; }
+      50% { transform: translateY(6px); opacity: 0.9; }
     }
     .boot-scroll .scroll-text {
       font-family: var(--mono); font-size: 9px;
@@ -624,7 +901,7 @@
       font-size: clamp(11px, 1.8vw, 13px);
       letter-spacing: 0.3em;
       color: var(--bone-mute);
-      margin-bottom: 30px;
+      margin-bottom: 12px;
     }
 
     /* ============================================================
@@ -1181,8 +1458,8 @@
     .tv-hint {
       margin-top: 18px;
       font-family: var(--mono);
-      font-size: clamp(8px, 2.4vw, 10px);
-      letter-spacing: 3px;
+      font-size: clamp(11px, 3vw, 14px);
+      letter-spacing: 2px;
       color: var(--bone-mute);
       text-align: center;
       min-height: 20px;
@@ -1196,6 +1473,15 @@
       animation: tapBlink 1.6s ease-in-out infinite;
     }
     .tv-hint.dim { opacity: 0.4; }
+    .tv-hint-sub {
+      margin-top: 10px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: clamp(9px, 2.4vw, 11px);
+      letter-spacing: 5px;
+      color: var(--bone-mute);
+      opacity: 0.85;
+    }
 
     .tv-switcher {
       position: absolute;
@@ -2411,6 +2697,69 @@
     }
     .audio-toggle.muted { color: var(--bone-mute); }
 
+    /* ---------- 五角星缓慢旋转 ---------- */
+    .passage-end .end-mark {
+      animation: endPulse 3.4s ease-in-out infinite, pentRotate 18s linear infinite;
+    }
+    .rift-easter-seal {
+      animation: sealPulse 2.6s ease-in-out infinite, pentRotate 18s linear infinite;
+    }
+    .about-sign .sign-mark {
+      animation: aboutPulse 3.4s ease-in-out infinite, pentRotate 18s linear infinite;
+    }
+    .epilogue-mark {
+      animation: aboutPulse 3.4s ease-in-out infinite, pentRotate 18s linear infinite;
+    }
+    .epilogue-frame::before,
+    .epilogue-frame::after {
+      animation: pentRotate 18s linear infinite;
+    }
+    .menu-footer .prompt {
+      animation: pentRotate 18s linear infinite;
+    }
+    @keyframes pentRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* ---------- 全屏随机闪帧 ---------- */
+    .page-flash {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background: rgba(255, 255, 255, 0.05);
+      mix-blend-mode: screen;
+      opacity: 0;
+      animation: pageFlash 11s steps(1, end) infinite;
+    }
+    @keyframes pageFlash {
+      0%, 7.9%, 12.1%, 100% { opacity: 0; }
+      8% { opacity: 0.65; }
+      8.8% { opacity: 0; }
+      9.6% { opacity: 0.5; }
+      10.3% { opacity: 0; }
+      11.2% { opacity: 0.8; }
+      12% { opacity: 0; }
+      37.9% { opacity: 0; }
+      38% { opacity: 0.7; }
+      38.9% { opacity: 0; }
+      39.8% { opacity: 0.45; }
+      40.5% { opacity: 0; }
+      67.9% { opacity: 0; }
+      68% { opacity: 0.85; }
+      68.6% { opacity: 0; }
+      69.4% { opacity: 0.55; }
+      70.1% { opacity: 0; }
+      71% { opacity: 0.75; }
+      71.8% { opacity: 0; }
+      87.9% { opacity: 0; }
+      88% { opacity: 0.6; }
+      88.7% { opacity: 0; }
+      89.6% { opacity: 0.8; }
+      90.3% { opacity: 0; }
+    }
+
     /* ============================================================
        响应式
     ============================================================ */
@@ -2442,7 +2791,7 @@
       .notice-item p { font-size: 12.5px; line-height: 1.85; }
 
       .tv-body { padding: 14px 14px 12px; border-radius: 14px; }
-      .tv-hint { font-size: 8px; letter-spacing: 2px; margin-top: 16px; }
+      .tv-hint { font-size: 10px; letter-spacing: 2px; margin-top: 16px; }
       .tv-description { font-size: 12px; margin-top: 18px; }
       .tv-switcher button { width: 30px; height: 30px; font-size: 12px; }
 
@@ -2481,10 +2830,11 @@
       .epilogue-sign { margin-top: 28px; }
 
       .boot-title { margin: 20px 0 30px; }
-      .title-main h1 { font-size: min(20vw, 64px); }
-      .title-side .v-text { font-size: 12px; letter-spacing: 0.4em; }
-      .title-side .seal { width: 28px; height: 28px; font-size: 10px; }
-      .title-side .sub-en { font-size: 13px; }
+      .boot-eyebrow { font-size: 9px; letter-spacing: 3px; margin-bottom: 16px; }
+      .boot-name { font-size: min(20vw, 64px); }
+      .boot-rule { width: min(240px, 76%); margin: 20px auto; }
+      .boot-en { font-size: 13px; }
+      .boot-seal { width: 30px; height: 30px; font-size: 10px; margin-top: 20px; }
 
       section.block { padding: 56px 0 44px; }
       .term-head { margin-bottom: 28px; padding-bottom: 16px; }
@@ -2519,7 +2869,7 @@
       .style-block { padding: 120px 0 100px; }
       .epilogue-block { padding: 120px 0 100px; }
       .boot-title { margin: 48px 0 40px; }
-      .title-main h1 { font-size: min(16vw, 110px); }
+      .boot-name { font-size: min(16vw, 110px); }
       .menu-btn { width: 40px; height: 40px; }
       .menu-list a { padding: 22px 0; gap: 24px; }
       .menu-list .idx { font-size: 10px; min-width: 32px; }
@@ -2561,6 +2911,9 @@
 <!-- 血色灰烬飘屏 -->
 <div class="ash-layer" id="ashLayer"></div>
 
+<!-- 全屏随机闪帧 -->
+<div class="page-flash" aria-hidden="true"></div>
+
 <!-- 音乐开关 -->
 <button class="audio-toggle muted" type="button" aria-label="音频开关">♪</button>
 
@@ -2589,16 +2942,22 @@
 
 <!-- HERO -->
 <header class="boot-stage" id="top">
+  <div class="boot-whispers" aria-hidden="true">
+    <span>它 在 看 着 你</span>
+    <span>龙 不 分 享</span>
+    <span>骨 血 为 契</span>
+  </div>
   <div class="boot-window">
     <div class="boot-title" id="bootTitle">
-      <div class="title-main">
-        <h1>安吉丽娜</h1>
+      <p class="boot-eyebrow">CHARACTER · ANGELINA</p>
+      <h1 class="boot-name">安吉丽娜</h1>
+      <div class="title-blood" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
       </div>
-      <div class="title-side">
-        <span class="v-text">溺毙于腐烂欲望</span>
-        <span class="seal">安吉<br>丽娜</span>
-        <span class="sub-en">Angelina</span>
-      </div>
+      <div class="boot-rule"><span></span></div>
+      <p class="boot-en">Angelina Baxter</p>
+      <p class="boot-quote">溺毙于腐烂欲望</p>
+      <div class="boot-seal">安吉<br>丽娜</div>
     </div>
   </div>
 
@@ -2643,7 +3002,7 @@
         ARCHIVE RIFT · 裂隙档案 · INTERACTIVE
       </div>
       <h2 class="interlude-title">撕裂的<em>中间层</em></h2>
-      <p class="interlude-sub">把扫描线滑到对应区间后松手拾取标记。</p>
+      <p class="interlude-sub">把扫描线滑到对应区间后松手拾取标记。<br>不同顺序组合解锁不同内容。</p>
 
       <!-- 扫描条 -->
       <div class="rift-scanner" id="riftScanner">
@@ -2750,6 +3109,7 @@
         <span class="hint-dot"></span>
         点 击 屏 幕 · 唤 醒 遗 物
       </div>
+      <p class="tv-hint-sub" id="tvHintSub">解锁完全即可查看我的档案</p>
 
       <p class="tv-description" id="tvDescription"></p>
     </div>
@@ -2839,8 +3199,8 @@
 
           <div class="about-middle">
           <div class="about-words">
-            <p data-about-word>if线的安洁莉娜摆脱一切不幸的开端，没有被迫转化为龙，没有跌宕的后续剧情，不认识主线的疯子便宜教皇爹眼睛瞳孔颜色一致，正常成长，有一个幸福美满的家庭，	梦想依旧是成为一名骑士，但向来被皇族垄断的骑士职位不接受外来平民血统的安洁莉娜，于是转行成为一名出色的剑士。</p>
-            <p data-about-word>安洁莉娜有话说：<br>你好呀，我是安洁莉娜！很高兴认识你！<br>我现在加入了探险者小队，挚友克里斯提尼·塞伦迪斯也在。<br>他是一名优秀的药剂师，手里收集了许多奇怪的血脉秘钥。<br>我是正常人类，不过当人类当烦了可能会换个种族玩玩；<br>作为人，当然还是开心最重要啦～</p>
+            <p data-about-word>IF线的安洁莉娜避开了所有悲剧的开端，没有被迫龙化，也没有走向主线里跌宕的结局。她不曾遇见那位偏执的教皇，在美满的家庭中平安长大。她的梦想仍是成为骑士，可if里骑士的职位长期被皇族垄断，不接纳平民出身的她。于是她另寻道路，成长为一名出色的剑士。</p>
+            <p data-about-word>安洁莉娜有话说：<br>你好呀，我是安洁莉娜！很高兴认识你！<br>我现在加入了探险者小队，挚友克里斯提尼·塞伦迪斯与我同行。<br>他是一名优秀的药剂师，我们一同收集各式各样奇妙的血脉秘钥。<br>我本是正常人类，不过哪天当人类当腻了...<br>拖克里斯的福，说不定会换个种族玩玩～<br>做人嘛，开心永远排在第一位～</p>
           </div>
 
           </div>
@@ -3281,12 +3641,6 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
         if (i < savedIdx) l.classList.add('in');
       });
     }
-    const lastLine = passageLines[passageLines.length - 1];
-    if (lastLine && lastLine.classList.contains('in')) {
-      document.body.classList.remove('lock');
-    } else if (passageLines.length) {
-      document.body.classList.add('lock');
-    }
     return;
   }
 
@@ -3310,6 +3664,37 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
       document.body.classList.remove('lock');
     }, 200);
   }, totalTime);
+})();
+
+/* ============================================================
+   首页：点击标题滴血（仅一次）& 下滑提示可点击
+   ============================================================ */
+(function(){
+  const title = document.getElementById('bootTitle');
+  const scrollHint = document.getElementById('bootScroll');
+
+  if (title) {
+    let bloodDone = false;
+    const bleed = () => {
+      if (bloodDone) return;
+      bloodDone = true;
+      title.classList.add('bloody');
+      buzz(12);
+    };
+    document.addEventListener('pointerdown', bleed);
+    document.addEventListener('touchstart', bleed, { passive: true });
+    document.addEventListener('touchmove', bleed, { passive: true });
+    document.addEventListener('click', bleed);
+    window.addEventListener('wheel', bleed, { passive: true });
+  }
+
+  if (scrollHint) {
+    scrollHint.style.cursor = 'pointer';
+    scrollHint.addEventListener('click', () => {
+      const next = document.getElementById('passage');
+      if (next) next.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 })();
 
 function scramble(el, text, dur = 600) {
@@ -3432,7 +3817,6 @@ function toast(msg, ms = 2000) {
     tapHint.classList.remove('show');
     writeState(STATE_KEYS.passage, lines.length);
   } else {
-    document.body.classList.add('lock');
     passage.style.touchAction = 'pan-y';
   }
 
@@ -3587,7 +3971,7 @@ function toast(msg, ms = 2000) {
 
   const ZONE_LABEL = { blank: '空白', claw: '爪痕', warm: '执剑', echo: '重塑' };
   const ZONE_TEXT = {
-    blank: '空白 · 这里什么都没有，虚无。',
+    blank: '空白 · 虚无之处。',
     claw:  '爪痕 · 鳞痕犹在，始知牢笼。',
     warm:  '执剑 · 剑承骑士，择我信仰。',
     echo:  '重塑 · 旧权倾落，挣脱定局。'
@@ -4007,6 +4391,7 @@ function toast(msg, ms = 2000) {
   const tvScreen = document.getElementById('tvScreen');
   const tvImage = document.getElementById('tvImage');
   const tvHint = document.getElementById('tvHint');
+  const tvHintSub = document.getElementById('tvHintSub');
   const tvSwitcher = document.getElementById('tvSwitcher');
   const tvDescription = document.getElementById('tvDescription');
   const tvPrev = document.getElementById('tvPrev');
@@ -4038,6 +4423,13 @@ function toast(msg, ms = 2000) {
       if (unlocked.length >= IMAGES.length) allSeen = true;
     }
   } catch(e) { unlocked = []; }
+
+  function updateTvHintSub() {
+    if (!tvHintSub) return;
+    const complete = allSeen || unlocked.length >= IMAGES.length;
+    tvHintSub.style.display = complete ? 'none' : '';
+  }
+  updateTvHintSub();
 
   const aboutWasRevealed = readState(STATE_KEYS.aboutRevealed, '0') === '1';
   const tvOncePlayed = sessGet(SESSION_ONCE.tvOnce) === '1';
@@ -4158,7 +4550,12 @@ function toast(msg, ms = 2000) {
       if (!unlocked.includes(i)) locked.push(i);
     }
     if (!locked.length) return -1;
-    return locked[Math.floor(Math.random() * locked.length)];
+    const lastIndex = IMAGES.length - 1;
+    const others = locked.filter(i => i !== lastIndex);
+    if (others.length) {
+      return others[Math.floor(Math.random() * others.length)];
+    }
+    return lastIndex;
   }
 
   function saveUnlocked() {
@@ -4246,6 +4643,7 @@ function toast(msg, ms = 2000) {
     const idx = getRandomLockedIndex();
     if (idx === -1) {
       allSeen = true;
+      updateTvHintSub();
       isAnimating = false;
       updateHint('‹ › 切 换 遗 物', false);
       showSwitcher();
@@ -4260,6 +4658,7 @@ function toast(msg, ms = 2000) {
       showDescription(idx);
       if (unlocked.length >= IMAGES.length) {
         allSeen = true;
+        updateTvHintSub();
         updateHint('‹ › 切 换 遗 物', false);
         showSwitcher();
         setTimeout(() => revealAbout(), 100);
@@ -4287,6 +4686,7 @@ function toast(msg, ms = 2000) {
 
         if (unlocked.length >= IMAGES.length) {
           allSeen = true;
+          updateTvHintSub();
           displayImage(idx, true);
           showDescription(idx);
           updateHint('‹ › 切 换 遗 物', false);
