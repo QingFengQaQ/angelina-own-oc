@@ -3671,11 +3671,6 @@ const buzz = (p = 10) => { if (navigator.vibrate) navigator.vibrate(p); };
       setTimeout(autoBleed, 450);
       titleObserver.disconnect();
     }
-    document.addEventListener('pointerdown', bleed);
-    document.addEventListener('touchstart', bleed, { passive: true });
-    document.addEventListener('touchmove', bleed, { passive: true });
-    document.addEventListener('click', bleed);
-    window.addEventListener('wheel', bleed, { passive: true });
   }
 
   if (scrollHint) {
@@ -4004,6 +3999,9 @@ function toast(msg, ms = 2000) {
   let fullState = false;
   let wanderRAF = null;
   let wanderStart = 0;
+  let autoScanActive = false;
+  let moved = false;
+  let startX = 0;
 
   function saveRiftProgress() {
     sessSet(SESSION_ONCE.riftCombos, JSON.stringify(unlockedCombos));
@@ -4073,11 +4071,33 @@ function toast(msg, ms = 2000) {
     return (clientX - rect.left) / rect.width;
   }
 
+  function beginDrag(x) {
+    dragging = true;
+    moved = false;
+    startX = x;
+    scanLine.style.transition = 'none';
+  }
+  function endDrag() {
+    dragging = false;
+    moved = false;
+    scanLine.style.transition = '';
+  }
+
   function commitPick() {
     if (fullState) return;
     if (!dragging) return;
-    dragging = false;
-    if (takenZones.length >= 3) return;
+    const didMove = moved;
+    endDrag();
+    if (!didMove) return;
+    if (takenZones.length >= 3) {
+      scanX = 0.12;
+      scanLine.style.left = (scanX * 100) + '%';
+      activeZoneKey = 'blank';
+      zoneEls.forEach(el => el.classList.toggle('active', el.dataset.zone === 'blank'));
+      scanReadout.innerHTML = '<span class="ro-key">SCAN</span> · 空白 · 一片虚无。';
+      scanReadout.classList.add('show');
+      return;
+    }
 
     const key = activeZoneKey;
 
@@ -4327,37 +4347,41 @@ function toast(msg, ms = 2000) {
   }
 
   scanTrack.addEventListener('pointerdown', (e) => {
-    if (fullState) return;
+    if (fullState || autoScanActive) return;
     if (e.pointerType === 'touch') return;
-    dragging = true;
+    beginDrag(e.clientX);
     scanTrack.setPointerCapture && scanTrack.setPointerCapture(e.pointerId);
-    setScan(trackPctFromEvent(e));
   });
   scanTrack.addEventListener('pointermove', (e) => {
-    if (fullState) return;
+    if (fullState || autoScanActive) return;
     if (e.pointerType === 'touch') return;
     if (!dragging) return;
     setScan(trackPctFromEvent(e));
+    if (Math.abs(e.clientX - startX) > 6) moved = true;
   });
   scanTrack.addEventListener('pointerup', (e) => {
     if (e.pointerType === 'touch') return;
     commitPick();
   });
-  scanTrack.addEventListener('pointercancel', () => { dragging = false; });
+  scanTrack.addEventListener('pointercancel', () => { endDrag(); });
 
   scanTrack.addEventListener('touchstart', (e) => {
-    if (fullState) return;
-    dragging = true;
-    setScan(trackPctFromEvent(e));
+    if (fullState || autoScanActive) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    beginDrag(touch.clientX);
   }, { passive: true });
   scanTrack.addEventListener('touchmove', (e) => {
-    if (fullState) return;
+    if (fullState || autoScanActive) return;
     if (!dragging) return;
+    const touch = e.touches[0];
+    if (!touch) return;
     setScan(trackPctFromEvent(e));
+    if (Math.abs(touch.clientX - startX) > 6) moved = true;
     e.preventDefault();
   }, { passive: false });
   scanTrack.addEventListener('touchend', () => { commitPick(); }, { passive: true });
-  scanTrack.addEventListener('touchcancel', () => { dragging = false; });
+  scanTrack.addEventListener('touchcancel', () => { endDrag(); });
 
   if (unlockedCombos.length >= COMBOS.length) {
     takenZones = ['claw', 'warm', 'echo'];
@@ -4374,6 +4398,7 @@ function toast(msg, ms = 2000) {
       if (entry.isIntersecting && !autoScanPlayed) {
         autoScanPlayed = true;
         autoScanIO.disconnect();
+        autoScanActive = true;
         const t0 = performance.now();
         const DURATION = 2800;
         (function autoScan(now) {
@@ -4390,7 +4415,10 @@ function toast(msg, ms = 2000) {
           }
           setScan(v);
           if (p < 1) requestAnimationFrame(autoScan);
-          else setScan(0.12);
+          else {
+            setScan(0.12);
+            autoScanActive = false;
+          }
         })(t0);
       }
     });
