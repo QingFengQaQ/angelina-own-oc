@@ -1806,7 +1806,7 @@
       text-align: center;
       margin-top: 20px;
       font-family: var(--mono);
-      font-size: 10px;
+      font-size: 12px;
       letter-spacing: 2px;
       color: var(--bone-mute);
       transition: color .3s, opacity .3s;
@@ -2485,7 +2485,7 @@
        04 平生
     ============================================================ */
     .epilogue-block {
-      padding: 84px 0 72px;
+      padding: 84px 0 36px;
     }
     .epilogue-wrap {
       max-width: 760px;
@@ -2594,9 +2594,14 @@
       text-shadow: 0 0 18px var(--blood-glow);
     }
     .epilogue-text p.typewriter.typing::after {
-      content: "▌";
-      margin-left: 2px;
-      color: var(--blood-bright);
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 3px;
+      vertical-align: -0.12em;
+      background: var(--blood-bright);
+      box-shadow: 0 0 8px var(--blood-glow);
       animation: caretBlink 0.8s steps(1) infinite;
     }
     @keyframes caretBlink {
@@ -2643,7 +2648,7 @@
     ============================================================ */
     .outro {
       text-align: center;
-      padding: 60px var(--pad) 30px;
+      padding: 20px var(--pad) 30px;
       max-width: 800px; margin: 0 auto;
       position: relative; z-index: 2;
     }
@@ -2825,7 +2830,7 @@
       .glitch-btn { padding: 8px 12px; font-size: 9px; }
       .main-actions { gap: 10px; }
 
-      .epilogue-block { padding: 56px 0 44px; }
+      .epilogue-block { padding: 56px 0 28px; }
       .epilogue-frame { padding: 26px 20px; }
       .epilogue-text { gap: 16px; }
       .epilogue-text p { font-size: 13px; line-height: 1.95; text-align: left; }
@@ -2870,7 +2875,7 @@
       .term-head .en { font-size: 12px; }
       section.block { padding: 110px 0 90px; }
       .style-block { padding: 120px 0 100px; }
-      .epilogue-block { padding: 120px 0 100px; }
+      .epilogue-block { padding: 120px 0 48px; }
       .boot-title { margin: 48px 0 40px; }
       .boot-name { font-size: min(16vw, 110px); }
       .menu-btn { width: 40px; height: 40px; }
@@ -2887,7 +2892,7 @@
       .notice-item { padding: 14px 0; gap: 14px; }
       .notice-item p { font-size: 13.5px; line-height: 2; }
       .epilogue-text p { font-size: 16.5px; line-height: 2.15; }
-      .outro { padding: 90px var(--pad) 40px; }
+      .outro { padding: 24px var(--pad) 40px; }
       .outro .outro-quote { font-size: 20px; letter-spacing: .2em; }
       .foot { padding: 40px 0; font-size: 9px; }
       .audio-toggle { left: 20px; bottom: 20px; width: 40px; height: 40px; border-radius: 2px; }
@@ -3203,7 +3208,7 @@
           <div class="about-middle">
           <div class="about-words">
             <p data-about-word>IF线的安洁莉娜避开了所有悲剧的开端，没有被迫龙化，也没有走向主线里跌宕的结局。她不曾遇见那位偏执的教皇，在美满的家庭中平安长大。她的梦想仍是成为骑士，可if里骑士的职位长期被皇族垄断，不接纳平民出身的她。于是她另寻道路，成长为一名出色的剑士。</p>
-            <p data-about-word>安洁莉娜有话说：<br>你好呀，我是安洁莉娜！很高兴认识你！<br>我加入了探险者小队，与挚友克里斯提尼·塞伦迪斯同行。<br>他是一名优秀的巫师，我们一同收集各式各样的奇妙药剂。<br>我本是正常人类，不过哪天当人类当腻了...<br>拖克里斯的福，说不定会换个种族玩玩～<br>做人嘛，开心永远排在第一位～</p>
+            <p data-about-word>安洁莉娜有话说：<br>你好呀，我是安洁莉娜！很高兴认识你！<br>我加入了探险者小队，与挚友克里斯提尼·塞伦迪斯同行。<br>他是一名优秀的巫师，我们一同收集各式各样的奇妙药剂。<br>我本是正常人类，不过哪天当人类当腻了...<br>托克里的福，说不定会换个种族玩玩～<br>做人嘛，开心永远排在第一位～</p>
           </div>
 
           </div>
@@ -5277,6 +5282,10 @@ function toast(msg, ms = 2000) {
   io.observe(wrap);
 
   function beginTyping() {
+    if (wrap) {
+      const h = wrap.getBoundingClientRect().height;
+      if (h > 0) wrap.style.minHeight = Math.ceil(h) + 'px';
+    }
     let pi = 0;
     let ci = 0;
     let plainNode = null;
